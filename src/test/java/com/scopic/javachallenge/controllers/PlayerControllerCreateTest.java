@@ -22,12 +22,10 @@ import com.scopic.javachallenge.models.PlayerSkill;
 class PlayerControllerCreateTest extends BasePlayerControllerTest {
 
     @Test
-    public void testSample() throws Exception {
+    public void testCreatePlayer() throws Exception {
     	
     	PlayerSkill playerSkill = new PlayerSkill(Skill.SPEED, 60);
     	Player player = new Player("player1", PlayerPosition.DEFENDER, List.of(playerSkill));
-    	//Player createdPlayer = playerRepository.save(player);
-    	//playerSkill.setPlayer(createdPlayer);
 
     	mvc.perform(
         		MockMvcRequestBuilders

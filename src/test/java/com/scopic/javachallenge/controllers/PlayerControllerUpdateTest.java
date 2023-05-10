@@ -5,8 +5,6 @@
 
 package com.scopic.javachallenge.controllers;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -22,7 +20,7 @@ import com.scopic.javachallenge.models.PlayerSkill;
 public class PlayerControllerUpdateTest extends BasePlayerControllerTest {
 
     @Test
-    public void testSample() throws Exception {
+    public void testUpdatePlayer() throws Exception {
     	
     	PlayerSkill playerSkill = new PlayerSkill(Skill.SPEED, 60);
     	Player player = new Player("player1", PlayerPosition.DEFENDER, List.of(playerSkill));

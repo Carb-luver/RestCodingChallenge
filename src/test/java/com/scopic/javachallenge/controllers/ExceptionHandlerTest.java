@@ -21,7 +21,7 @@ import com.scopic.javachallenge.models.PlayerSkill;
 public class ExceptionHandlerTest extends BasePlayerControllerTest{
 	
 	@Test
-    public void testSample() throws Exception {
+    public void testInvalidSkillValue() throws Exception {
     	
     	PlayerSkill playerSkill = new PlayerSkill(Skill.SPEED, 101);
     	Player player = new Player("player1", PlayerPosition.DEFENDER, List.of(playerSkill));

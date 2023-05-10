@@ -45,18 +45,13 @@ public class PlayerController {
 
     @PostMapping("/player")
     public ResponseEntity<Object> create(@RequestBody Player newPlayer) {
-		List<PlayerSkill> playerSkills = newPlayer.getPlayerSkills();
-    	return playerService.createPlayer(newPlayer, playerSkills);
+    	return playerService.createPlayer(newPlayer, newPlayer.getPlayerSkills());
         
     }
 
     @PutMapping("/player/{id}")
     public ResponseEntity<Object> update(@PathVariable final Long id, @RequestBody Player player) {
-        try {
-			return playerService.updatePlayer(id, player);
-		} catch (InvalidInputException e) {
-			return new ResponseEntity<Object>(e.getMessage(), HttpStatus.BAD_REQUEST);
-		}
+		return playerService.updatePlayer(id, player);
     }
 
     @DeleteMapping("/player/{id}")

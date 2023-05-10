@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.scopic.javachallenge.enums.PlayerPosition;
-import com.scopic.javachallenge.enums.Skill;
 import com.scopic.javachallenge.errorhandling.InvalidInputException;
 import com.scopic.javachallenge.models.Player;
 import com.scopic.javachallenge.models.PlayerSkill;
@@ -47,20 +46,24 @@ public class PlayerService {
 		return new ResponseEntity<Optional<Player>>(player, HttpStatus.OK);
 	}
 	
-	public ResponseEntity<Object> updatePlayer(Long id, Player newPlayer) throws InvalidInputException {
-		errorHandling(newPlayer);
+	public ResponseEntity<Object> updatePlayer(Long id, Player updatedPlayer) {
+		try {
+			errorHandling(updatedPlayer);
+		} catch (InvalidInputException e) {
+			return new ResponseEntity<Object>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
 		Optional<Player> outdatedPlayer = playerRepository.findById(id);
+		
 		if(!outdatedPlayer.isEmpty()) {
 			playerRepository.deleteById(id);
-			skillDao.saveAll(newPlayer.getPlayerSkills());
-			Player player = playerRepository.save(newPlayer);
-			newPlayer.getPlayerSkills().stream().forEach(skill -> skill.setPlayer(player));
-			return new ResponseEntity<Object>(player, HttpStatus.ACCEPTED);
-		} else {
-			newPlayer.setId(id);
-			Player player = playerRepository.save(newPlayer);
-			return new ResponseEntity<Object>(player, HttpStatus.ACCEPTED);
 		}
+		
+		updatedPlayer.setId(id);
+		Player player = playerRepository.save(updatedPlayer);
+		player.getPlayerSkills().clear();
+		updatedPlayer.getPlayerSkills().stream().forEach(skill -> skill.setPlayer(player));
+		skillDao.saveAll(updatedPlayer.getPlayerSkills());
+		return new ResponseEntity<Object>(player, HttpStatus.ACCEPTED);
 	}
 	
 	public ResponseEntity<Object> deletePlayer(String token, Long id) {
